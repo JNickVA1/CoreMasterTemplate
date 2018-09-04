@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Syncfusion.EJ2" Version="16.2.0.50" />
+    <PackageReference Include="Syncfusion.Licensing" Version="16.2.0.50" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
+    <Folder Include="Resources\Images\" />
+    <Folder Include="wwwroot\images\Annotated\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\images\Static\1024px_Kumasi_Ghana.jpg" />
+  </ItemGroup>
+
+</Project>
