@@ -16,8 +16,4 @@
     <Folder Include="wwwroot\images\Annotated\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="wwwroot\images\Static\1024px_Kumasi_Ghana.jpg" />
-  </ItemGroup>
-
 </Project>

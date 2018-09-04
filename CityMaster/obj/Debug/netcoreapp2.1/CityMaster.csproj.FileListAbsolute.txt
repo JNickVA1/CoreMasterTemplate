@@ -2,6 +2,9 @@ C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\bin\Debug\netcoreapp2.
 C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\bin\Debug\netcoreapp2.1\CityMaster.runtimeconfig.json
 C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\bin\Debug\netcoreapp2.1\CityMaster.runtimeconfig.dev.json
 C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\bin\Debug\netcoreapp2.1\CityMaster.dll
+C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\bin\Debug\netcoreapp2.1\CityMaster.pdb
+C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\bin\Debug\netcoreapp2.1\CityMaster.Views.dll
+C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\bin\Debug\netcoreapp2.1\CityMaster.Views.pdb
 C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.csproj.CoreCompileInputs.cache
 C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.RazorAssemblyInfo.cache
 C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.RazorAssemblyInfo.cs
@@ -22,11 +25,7 @@ C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.
 C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\Razor\Pages\_ViewStart.g.cshtml.cs
 C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.RazorTargetAssemblyInfo.cache
 C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.RazorTargetAssemblyInfo.cs
-C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\bin\Debug\netcoreapp2.1\CityMaster.pdb
-C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\bin\Debug\netcoreapp2.1\CityMaster.Views.dll
-C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\bin\Debug\netcoreapp2.1\CityMaster.Views.pdb
 C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.Views.pdb
 C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.dll
 C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.pdb
 C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.csproj.CopyComplete
-C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.csprojAssemblyReference.cache
