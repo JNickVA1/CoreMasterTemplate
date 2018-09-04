@@ -1,6 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\CityMaster"
   ],
+  "SelectedNode": "\\CityMaster\\CityMaster.csproj",
   "PreviewInSolutionExplorer": false
 }
