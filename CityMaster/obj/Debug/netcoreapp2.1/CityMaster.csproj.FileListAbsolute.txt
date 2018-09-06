@@ -29,4 +29,5 @@ C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.
 C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.dll
 C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.pdb
 C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.csproj.CopyComplete
-C:\Users\Yendo\Source\Repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.csprojAssemblyReference.cache
+C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.csprojAssemblyReference.cache
+C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\UserSecretsAssemblyInfo.cs

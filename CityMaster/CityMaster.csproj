@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <UserSecretsId>0187313d-3761-48c6-a625-a00a2bff8c84</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
+    <Folder Include="Data\Migrations\" />
+    <Folder Include="Services\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="wwwroot\images\Annotated\" />
   </ItemGroup>
