@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.1",
-    "signature": "3d1f4afce31aa452595c95e2ceafd5f3941b48cd"
+    "signature": "a00055916cc417f8fda803ddb35b3560fb5366ef"
   },
   "compilationOptions": {
     "defines": [
@@ -25,7 +25,10 @@
       "CityMaster/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.App": "2.1.1",
+          "Microsoft.Extensions.Logging": "2.1.1",
+          "Microsoft.Extensions.Logging.AzureAppServices": "2.1.1",
           "Microsoft.NETCore.App": "2.1.0",
+          "Sendgrid": "9.9.0",
           "Syncfusion.EJ2": "16.2.0.50",
           "Syncfusion.Licensing": "16.2.0.50"
         },
@@ -34,6 +37,25 @@
         },
         "compile": {
           "CityMaster.dll": {}
+        }
+      },
+      "Microsoft.Extensions.Logging.AzureAppServices/2.1.1": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.EnvironmentVariables": "2.1.1",
+          "Microsoft.Extensions.Configuration.Json": "2.1.1",
+          "Microsoft.Extensions.Logging": "2.1.1",
+          "Microsoft.Extensions.Logging.Abstractions": "2.1.1",
+          "Microsoft.Extensions.Logging.Configuration": "2.1.1",
+          "System.ValueTuple": "4.5.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Logging.AzureAppServices.dll": {
+            "assemblyVersion": "2.1.1.0",
+            "fileVersion": "2.1.1.18157"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Extensions.Logging.AzureAppServices.dll": {}
         }
       },
       "Microsoft.NETCore.App/2.1.0": {
@@ -207,6 +229,22 @@
           "Microsoft.NETCore.Platforms": "2.1.0"
         }
       },
+      "Sendgrid/9.9.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Http.Abstractions": "2.1.1",
+          "NETStandard.Library": "2.0.3",
+          "Newtonsoft.Json": "11.0.2"
+        },
+        "runtime": {
+          "lib/netstandard1.3/SendGrid.dll": {
+            "assemblyVersion": "9.8.0.0",
+            "fileVersion": "9.8.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard1.3/SendGrid.dll": {}
+        }
+      },
       "Syncfusion.EJ2/16.2.0.50": {
         "dependencies": {
           "Newtonsoft.Json": "11.0.2",
@@ -233,6 +271,7 @@
           "lib/netstandard2.0/Syncfusion.Licensing.dll": {}
         }
       },
+      "System.ValueTuple/4.5.0": {},
       "Microsoft.AspNet.WebApi.Client/5.2.6": {
         "dependencies": {
           "Newtonsoft.Json": "11.0.2",
@@ -1479,7 +1518,7 @@
           "System.Threading.Tasks": "4.3.0",
           "System.Threading.Tasks.Parallel": "4.3.0",
           "System.Threading.Thread": "4.3.0",
-          "System.ValueTuple": "4.3.0",
+          "System.ValueTuple": "4.5.0",
           "System.Xml.ReaderWriter": "4.3.0",
           "System.Xml.XDocument": "4.3.0",
           "System.Xml.XPath.XDocument": "4.3.0",
@@ -3066,14 +3105,6 @@
         },
         "compileOnly": true
       },
-      "System.ValueTuple/4.3.0": {
-        "dependencies": {
-          "System.Collections": "4.3.0",
-          "System.Resources.ResourceManager": "4.3.0",
-          "System.Runtime": "4.3.0"
-        },
-        "compileOnly": true
-      },
       "System.Xml.ReaderWriter/4.3.0": {
         "dependencies": {
           "System.Collections": "4.3.0",
@@ -3184,6 +3215,13 @@
       "serviceable": false,
       "sha512": ""
     },
+    "Microsoft.Extensions.Logging.AzureAppServices/2.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RWTgH1+Lwt4FEC8LFnTr1E17spqdikV1rn+/6MT4zr3Xej5Y0iKrH0on2e31B/pJad41Vym/9PpXX+hpHtVlMg==",
+      "path": "microsoft.extensions.logging.azureappservices/2.1.1",
+      "hashPath": "microsoft.extensions.logging.azureappservices.2.1.1.nupkg.sha512"
+    },
     "Microsoft.NETCore.App/2.1.0": {
       "type": "package",
       "serviceable": true,
@@ -3233,6 +3271,13 @@
       "path": "netstandard.library/2.0.3",
       "hashPath": "netstandard.library.2.0.3.nupkg.sha512"
     },
+    "Sendgrid/9.9.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3v4aIYXqTvhnozBvpCyf+U9DMiZzN9s4m7tpl8RjVHRN0IUKSFwJ0eio7GVjT03vTTUOXhOY8M+15zLYzQGhYQ==",
+      "path": "sendgrid/9.9.0",
+      "hashPath": "sendgrid.9.9.0.nupkg.sha512"
+    },
     "Syncfusion.EJ2/16.2.0.50": {
       "type": "package",
       "serviceable": true,
@@ -3246,6 +3291,13 @@
       "sha512": "sha512-TzRwgHENh9YdRcq04RibfNPk7Vaj4Ok2pDzE8oN2N2fogYgM8LJFumOUmu6bg9jgbGgOFBMdlJ9YQ3GolctCCQ==",
       "path": "syncfusion.licensing/16.2.0.50",
       "hashPath": "syncfusion.licensing.16.2.0.50.nupkg.sha512"
+    },
+    "System.ValueTuple/4.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-xZtSZNEHGa+tGsKuP4sh257vxJ/yemShz4EusmomkynMzuEDDjVaErBNewpzEF6swUgbcrSQAX3ELsEp1zCOwA==",
+      "path": "system.valuetuple/4.5.0",
+      "hashPath": "system.valuetuple.4.5.0.nupkg.sha512"
     },
     "Microsoft.AspNet.WebApi.Client/5.2.6": {
       "type": "package",
@@ -5087,13 +5139,6 @@
       "sha512": "sha512-OHmbT+Zz065NKII/ZHcH9XO1dEuLGI1L2k7uYss+9C1jLxTC9kTZZuzUOyXHayRk+dft9CiDf3I/QZ0t8JKyBQ==",
       "path": "system.threading.thread/4.3.0",
       "hashPath": "system.threading.thread.4.3.0.nupkg.sha512"
-    },
-    "System.ValueTuple/4.3.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-cNLEvBX3d6MMQRZe3SMFNukVbitDAEpVZO17qa0/2FHxZ7Y7PpFRpr6m2615XYM/tYYYf0B+WyHNujqIw8Luwg==",
-      "path": "system.valuetuple/4.3.0",
-      "hashPath": "system.valuetuple.4.3.0.nupkg.sha512"
     },
     "System.Xml.ReaderWriter/4.3.0": {
       "type": "package",

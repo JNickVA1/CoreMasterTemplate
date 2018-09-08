@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using CityMaster.Data.DbContexts;
 using CityMaster.Models;
+using CityMaster.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +29,7 @@ namespace CityMaster
 		#endregion Fields
 
 		#region Constructors
+
 		/// <summary>
 		/// The Startup class, or any class used in the WebHost UseStartup method call, can be constructed
 		/// in various ways depending on the objects required as constructor parameters. For example, all
@@ -39,9 +42,11 @@ namespace CityMaster
 		/// place to start to try to figure out what is, and isn't, allowed as startup class parameters.
 		/// </summary>
 		/// <param name="env"></param>
-		public Startup(IHostingEnvironment env)
+		/// <param name="loggerFactory"></param>
+		public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory)
 		{
 			Environment = env;
+			LoggerFactory = loggerFactory;
 
 			// Set up configuration sources.
 			SetupConfiguration();
@@ -75,8 +80,8 @@ namespace CityMaster
 			// Set up configuration sources.
 			var builder = new ConfigurationBuilder()
 				.SetBasePath(Environment.ContentRootPath)
-				.AddJsonFile("appsettings.json")
-				.AddJsonFile($"appsettings.{Environment.EnvironmentName}.json", optional: true);
+				.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+				.AddJsonFile($"appsettings.{Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
 			// For the Development environment, add the User Secrets configuration source to the
 			// IConfigurationBuilder. Perform all other Development configuration here as well.
@@ -98,10 +103,13 @@ namespace CityMaster
 			Configuration = builder.Build();
 		}
 
-		// This method gets called by the runtime. Use this method to add services to the container.
+		/// <summary>
+		/// This method gets called by the runtime. Use this method to add services to the container.
+		/// </summary>
+		/// <param name="services"></param>
 		public void ConfigureServices(IServiceCollection services)
 		{
-			//
+			// Configure the cookie policies.
 			services.Configure<CookiePolicyOptions>(options =>
 			{
 				// This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -117,26 +125,58 @@ namespace CityMaster
 				options.Filters.Add(new RequireHttpsAttribute());
 			});
 			// Add the database context using the connection string appropriate to the environment.
+			// NOTE: I am restricting the database context to connect only to a SQL Server database.
+			//		 Since I intend to use code derived from this template only on Azure, and only
+			//		 with SQL Server, I don't feel that it's necessary to use dependency inversion.
 			if (Environment.IsDevelopment())
 			{
+				// I'm using the default connection string for development on my local machine.
 				services.AddDbContext<ApplicationDbContext>(options =>
 					options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+				// NOTE: Logging will be performed via one of, or both of, the standard loggers that
+				//		 are configured in the call to CreateDefaultBuilder (Console and Debug).
 			}
 			else if(Environment.IsEnvironment("Test"))
 			{
+				// This is for the Azure Test environment.
 				services.AddDbContext<ApplicationDbContext>(options =>
 					options.UseSqlServer(Configuration.GetConnectionString("AzureTestConnection")));
+
+				// Add the Azure App Service logging provider.
+				// TODO: Configure the AzureAppServicesDiagnosticsSettings that can be passed into 
+				// TODO: the call to AddAzureWebAppDiagnostics for Test logging.
+				LoggerFactory.AddAzureWebAppDiagnostics();
 			}
 			else if (Environment.IsProduction())
 			{
+				// This is for the Azure Production environment.
 				services.AddDbContext<ApplicationDbContext>(options =>
 					options.UseSqlServer(Configuration.GetConnectionString("AzureProdConnection")));
+
+				// Add the Azure App Service logging provider.
+				// TODO: Configure the AzureAppServicesDiagnosticsSettings that can be passed into 
+				// TODO: the call to AddAzureWebAppDiagnostics for Production logging.
+				LoggerFactory.AddAzureWebAppDiagnostics();
+			}
+			else if (Environment.IsStaging())
+			{
+				// This is for the Azure Staging environment.
+				services.AddDbContext<ApplicationDbContext>(options =>
+					options.UseSqlServer(Configuration.GetConnectionString("AzureStagingConnection")));
+
+				// Add the Azure App Service logging provider.
+				// TODO: Configure the AzureAppServicesDiagnosticsSettings that can be passed into 
+				// TODO: the call to AddAzureWebAppDiagnostics for Staging logging.
+				LoggerFactory.AddAzureWebAppDiagnostics();
 			}
 			else
 			{
-				//
+				// Obviously we have some sort of malfunction and should never get here. 
+				// Log the error and exit gracefully, if at all possible.
+				// TODO: Test to determine what I can do here.
 			}
-			//
+			// Add the default Identity configuration to the Services Collection.
 			services.AddIdentity<ApplicationUser, IdentityRole>()
 				.AddEntityFrameworkStores<ApplicationDbContext>()
 				.AddDefaultTokenProviders();
@@ -144,7 +184,18 @@ namespace CityMaster
 			// Add the localization services to the services container
 			services.AddLocalization(options => options.ResourcesPath = "Resources");
 
+			// Register the email service used for "contacts".
+			services.AddSingleton<IEmailSender, EmailSender>();
+
+			// Configure startup to use the SendGrid options.
+			services.Configure<AuthMessageSenderOptions>(Configuration);
+
+			// Add cross-origin resource sharing services to the specified IServiceCollection.
 			//
+			// The Policy specifed as an option will allow any method.
+			services.AddCors(options => options.AddPolicy("CorsPolicy", b => b.AllowAnyMethod()));
+
+			// Add MVC Services to the Services Collection.
 			services.AddMvc()
 				// Add support for finding localized views, based on file name suffix, e.g. Index.fr.cshtml
 				.AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
@@ -154,7 +205,7 @@ namespace CityMaster
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 		{
 			if (env.IsDevelopment())
 			{

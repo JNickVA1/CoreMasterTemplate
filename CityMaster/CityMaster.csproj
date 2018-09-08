@@ -7,13 +7,15 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.AzureAppServices" Version="2.1.1" />
+    <PackageReference Include="Sendgrid" Version="9.9.0" />
     <PackageReference Include="Syncfusion.EJ2" Version="16.2.0.50" />
     <PackageReference Include="Syncfusion.Licensing" Version="16.2.0.50" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
-    <Folder Include="Services\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="wwwroot\images\Annotated\" />
   </ItemGroup>
