@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using CityMaster.Data.DbContexts;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +27,10 @@ namespace CityMaster
 		#region Fields
 		// Define the constant for the default culture, US English, using the IETF RFC 4646 guidelines.
 		// See: https://en.wikipedia.org/wiki/IETF_language_tag
-		private readonly string DefaultCulture;
+		private static CultureInfo DefaultCulture;
+
+		//
+		private static List<CultureInfo> SupportedCultures = new List<CultureInfo>();
 		#endregion Fields
 
 		#region Constructors
@@ -50,6 +55,9 @@ namespace CityMaster
 
 			// Set up configuration sources.
 			SetupConfiguration();
+
+			// Setup localization configuration.
+			SetupLocalization();
 		}
 		#endregion Constructors
 
@@ -104,9 +112,28 @@ namespace CityMaster
 		}
 
 		/// <summary>
+		/// 
+		/// </summary>
+		private static void SetupLocalization()
+		{
+			// Read the default culture.
+			DefaultCulture = new CultureInfo(Configuration["Localization:DefaultCulture"]);
+
+			// Read all supported cultures and add each to the List of SupportedCultures.
+			var cultures = Configuration.GetSection("Localization:SupportedCultures").GetChildren();
+			foreach (var culture in cultures)
+			{
+				SupportedCultures.Add(new CultureInfo(culture.Value));
+			}
+		}
+
+		/// <summary>
 		/// This method gets called by the runtime. Use this method to add services to the container.
 		/// </summary>
 		/// <param name="services"></param>
+		/// <remarks>
+		/// Is called by the runtime BEFORE Configure().
+		/// </remarks>
 		public void ConfigureServices(IServiceCollection services)
 		{
 			// Configure the cookie policies.
@@ -184,6 +211,42 @@ namespace CityMaster
 			// Add the localization services to the services container
 			services.AddLocalization(options => options.ResourcesPath = "Resources");
 
+			// Add MVC Services to the Services Collection.
+			services.AddMvc()
+				// Add support for finding localized views, based on file name suffix, e.g. Index.fr.cshtml
+				.AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+				// Add support for localizing strings in data annotations (e.g. validation messages) via the
+				// IStringLocalizer abstractions.
+				.AddDataAnnotationsLocalization();
+
+			// Configure supported cultures and localization options
+			services.Configure<RequestLocalizationOptions>(options =>
+			{
+				// State what the default culture for your application is. This will be used if no specific culture
+				// can be determined for a given request.
+				options.DefaultRequestCulture = new RequestCulture(DefaultCulture.Name, DefaultCulture.Name);
+
+				// You must explicitly state which cultures your application supports.
+				// These are the cultures the app supports for formatting numbers, dates, etc.
+				options.SupportedCultures = SupportedCultures;
+
+				// These are the cultures the app supports for UI strings, i.e. we have localized resources for.
+				options.SupportedUICultures = SupportedCultures;
+
+				// You can change which providers are configured to determine the culture for requests, or even add a custom
+				// provider with your own logic. The providers will be asked in order to provide a culture for each request,
+				// and the first to provide a non-null result that is in the configured supported cultures list will be used.
+				// By default, the following built-in providers are configured:
+				// - QueryStringRequestCultureProvider, sets culture via "culture" and "ui-culture" query string values, useful for testing
+				// - CookieRequestCultureProvider, sets culture via "ASPNET_CULTURE" cookie
+				// - AcceptLanguageHeaderRequestCultureProvider, sets culture via the "Accept-Language" request header
+				//options.RequestCultureProviders.Insert(0, new CustomRequestCultureProvider(async context =>
+				//{
+				//  // My custom request culture logic
+				//  return new ProviderCultureResult("en");
+				//}));
+			});
+
 			// Register the email service used for "contacts".
 			services.AddSingleton<IEmailSender, EmailSender>();
 
@@ -194,17 +257,16 @@ namespace CityMaster
 			//
 			// The Policy specifed as an option will allow any method.
 			services.AddCors(options => options.AddPolicy("CorsPolicy", b => b.AllowAnyMethod()));
-
-			// Add MVC Services to the Services Collection.
-			services.AddMvc()
-				// Add support for finding localized views, based on file name suffix, e.g. Index.fr.cshtml
-				.AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-				// Add support for localizing strings in data annotations (e.g. validation messages) via the
-				// IStringLocalizer abstractions.
-				.AddDataAnnotationsLocalization();
 		}
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		/// <summary>
+		/// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		/// </summary>
+		/// <param name="app"></param>
+		/// <param name="env"></param>
+		/// <remarks>
+		/// Is called by the runtime AFTER ConfigureServices().
+		/// </remarks>
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 		{
 			if (env.IsDevelopment())
