@@ -1,20 +1,16 @@
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
 using CityMaster.Data.DbContexts;
 using CityMaster.Models;
 using CityMaster.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -46,18 +42,16 @@ namespace CityMaster
 		/// implemented in ASP.NET Core can be see at: https://github.com/aspnet/Hosting, which is a good
 		/// place to start to try to figure out what is, and isn't, allowed as startup class parameters.
 		/// </summary>
-		/// <param name="env"></param>
-		/// <param name="loggerFactory"></param>
-		public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory)
+		/// <param name="configuration"></param>
+		/// <param name="environment"></param>
+		public Startup(IConfiguration configuration, IHostingEnvironment environment, ILoggerFactory loggerFactory)
 		{
-			Environment = env;
+			Configuration = configuration;
+			Environment = environment;
 			LoggerFactory = loggerFactory;
 
-			// Set up configuration sources.
-			SetupConfiguration();
-
 			// Setup localization configuration.
-			SetupLocalization();
+			InitCultures();
 		}
 		#endregion Constructors
 
@@ -83,38 +77,38 @@ namespace CityMaster
 		/// Initialize the app configuration using, primarily, the appsettings.json file
 		/// as the source for the key/value pairs.
 		/// </summary>
-		private static void SetupConfiguration()
-		{
-			// Set up configuration sources.
-			var builder = new ConfigurationBuilder()
-				.SetBasePath(Environment.ContentRootPath)
-				.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-				.AddJsonFile($"appsettings.{Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+		//private static void SetupConfiguration()
+		//{
+		//	// Set up configuration sources.
+		//	var builder = new ConfigurationBuilder()
+		//		.SetBasePath(Environment.ContentRootPath)
+		//		.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+		//		.AddJsonFile($"appsettings.{Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
-			// For the Development environment, add the User Secrets configuration source to the
-			// IConfigurationBuilder. Perform all other Development configuration here as well.
-			if (Environment.IsDevelopment())
-			{
-				// For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
-				builder.AddUserSecrets<Startup>();
-			}
-			// Add environment variables and their values to the IConfigurationBuilder.
-			// NOTE: Usually this is not necessary or desired in a development environment.
-			//		 However, if running the app in an Azure App Service, then environment 
-			//		 variables can be easily added that are only available in Azure.
-			//		 Alternatively, and a much more secure approach, is to use the Azure Key Vault
-			//		 when running the app in an Azure App Service. See the following for ,more information:
-			//		 https://docs.microsoft.com/en-us/aspnet/core/security/key-vault-configuration?tabs=aspnetcore2x&view=aspnetcore-2.1
-			builder.AddEnvironmentVariables();
+		//	// For the Development environment, add the User Secrets configuration source to the
+		//	// IConfigurationBuilder. Perform all other Development configuration here as well.
+		//	if (Environment.IsDevelopment())
+		//	{
+		//		// For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
+		//		builder.AddUserSecrets<Startup>();
+		//	}
+		//	// Add environment variables and their values to the IConfigurationBuilder.
+		//	// NOTE: Usually this is not necessary or desired in a development environment.
+		//	//		 However, if running the app in an Azure App Service, then environment 
+		//	//		 variables can be easily added that are only available in Azure.
+		//	//		 Alternatively, and a much more secure approach, is to use the Azure Key Vault
+		//	//		 when running the app in an Azure App Service. See the following for ,more information:
+		//	//		 https://docs.microsoft.com/en-us/aspnet/core/security/key-vault-configuration?tabs=aspnetcore2x&view=aspnetcore-2.1
+		//	builder.AddEnvironmentVariables();
 
-			// Build the configuration from the set of sources previously added to the builder.
-			Configuration = builder.Build();
-		}
+		//	// Build the configuration from the set of sources previously added to the builder.
+		//	Configuration = builder.Build();
+		//}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		private static void SetupLocalization()
+		private static void InitCultures()
 		{
 			// Read the default culture.
 			DefaultCulture = new CultureInfo(Configuration["Localization:DefaultCulture"]);
@@ -123,7 +117,21 @@ namespace CityMaster
 			var cultures = Configuration.GetSection("Localization:SupportedCultures").GetChildren();
 			foreach (var culture in cultures)
 			{
-				SupportedCultures.Add(new CultureInfo(culture.Value));
+				//
+				var cultureInfo = new CultureInfo(culture.Value);
+
+				//
+				if (cultureInfo.EnglishName.StartsWith("Arabic"))
+				{
+					//
+					cultureInfo.DateTimeFormat = new DateTimeFormatInfo() { Calendar = new GregorianCalendar() };
+
+					//
+					cultureInfo.NumberFormat = new NumberFormatInfo() {NativeDigits = "0 1 2 3 4 5 6 7 8 9".Split(" ")};
+				}
+
+				//
+				SupportedCultures.Add(cultureInfo);
 			}
 		}
 
@@ -143,14 +151,38 @@ namespace CityMaster
 				options.CheckConsentNeeded = context => true;
 				options.MinimumSameSitePolicy = SameSiteMode.None;
 			});
+
+			//
+			services.Configure<RequestLocalizationOptions>(ops =>
+			{
+				// State what the default culture for your application is. This will be used if no specific culture
+				// can be determined for a given request.
+				ops.DefaultRequestCulture = new RequestCulture(DefaultCulture);
+				// You must explicitly state which cultures your application supports.
+				// These are the cultures the app supports for formatting numbers, dates, etc.
+				ops.SupportedCultures = SupportedCultures.OrderBy(x => x.EnglishName).ToList();
+				// These are the cultures the app supports for UI strings, i.e. we have localized resources for.
+				ops.SupportedUICultures = SupportedCultures.OrderBy(x => x.EnglishName).ToList();
+			});
+
 			// Set the level of compatibility with ASP.NET Core.
-			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1); 
+			services.AddMvc()
+				.SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+				// Add support for finding localized views, based on file name suffix, e.g. Index.fr.cshtml
+				.AddViewLocalization(o => o.ResourcesPath = "Resources")
+				// Add support for localizing strings in data annotations (e.g. validation messages) via the
+				// IStringLocalizer abstractions.
+				.AddDataAnnotationsLocalization();
+
+			// Add the localization services to the services container
+			services.AddLocalization(options => options.ResourcesPath = "Resources");
 
 			// Configure the MVC framework to require HTTPS.
 			services.Configure<MvcOptions>(options =>
 			{
 				options.Filters.Add(new RequireHttpsAttribute());
 			});
+			#region DbContexts
 			// Add the database context using the connection string appropriate to the environment.
 			// NOTE: I am restricting the database context to connect only to a SQL Server database.
 			//		 Since I intend to use code derived from this template only on Azure, and only
@@ -203,49 +235,11 @@ namespace CityMaster
 				// Log the error and exit gracefully, if at all possible.
 				// TODO: Test to determine what I can do here.
 			}
+			#endregion DbContexts
 			// Add the default Identity configuration to the Services Collection.
 			services.AddIdentity<ApplicationUser, IdentityRole>()
 				.AddEntityFrameworkStores<ApplicationDbContext>()
 				.AddDefaultTokenProviders();
-			
-			// Add the localization services to the services container
-			services.AddLocalization(options => options.ResourcesPath = "Resources");
-
-			// Add MVC Services to the Services Collection.
-			services.AddMvc()
-				// Add support for finding localized views, based on file name suffix, e.g. Index.fr.cshtml
-				.AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-				// Add support for localizing strings in data annotations (e.g. validation messages) via the
-				// IStringLocalizer abstractions.
-				.AddDataAnnotationsLocalization();
-
-			// Configure supported cultures and localization options
-			services.Configure<RequestLocalizationOptions>(options =>
-			{
-				// State what the default culture for your application is. This will be used if no specific culture
-				// can be determined for a given request.
-				options.DefaultRequestCulture = new RequestCulture(DefaultCulture.Name, DefaultCulture.Name);
-
-				// You must explicitly state which cultures your application supports.
-				// These are the cultures the app supports for formatting numbers, dates, etc.
-				options.SupportedCultures = SupportedCultures;
-
-				// These are the cultures the app supports for UI strings, i.e. we have localized resources for.
-				options.SupportedUICultures = SupportedCultures;
-
-				// You can change which providers are configured to determine the culture for requests, or even add a custom
-				// provider with your own logic. The providers will be asked in order to provide a culture for each request,
-				// and the first to provide a non-null result that is in the configured supported cultures list will be used.
-				// By default, the following built-in providers are configured:
-				// - QueryStringRequestCultureProvider, sets culture via "culture" and "ui-culture" query string values, useful for testing
-				// - CookieRequestCultureProvider, sets culture via "ASPNET_CULTURE" cookie
-				// - AcceptLanguageHeaderRequestCultureProvider, sets culture via the "Accept-Language" request header
-				//options.RequestCultureProviders.Insert(0, new CustomRequestCultureProvider(async context =>
-				//{
-				//  // My custom request culture logic
-				//  return new ProviderCultureResult("en");
-				//}));
-			});
 
 			// Register the email service used for "contacts".
 			services.AddSingleton<IEmailSender, EmailSender>();
@@ -255,7 +249,7 @@ namespace CityMaster
 
 			// Add cross-origin resource sharing services to the specified IServiceCollection.
 			//
-			// The Policy specifed as an option will allow any method.
+			// The Policy specified as an option will allow any method.
 			services.AddCors(options => options.AddPolicy("CorsPolicy", b => b.AllowAnyMethod()));
 		}
 
@@ -272,6 +266,7 @@ namespace CityMaster
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
+				app.UseDatabaseErrorPage();
 			}
 			else
 			{
@@ -279,10 +274,33 @@ namespace CityMaster
 				app.UseHsts();
 			}
 
+			// For more details on creating database during deployment see http://go.microsoft.com/fwlink/?LinkID=615859
+			try
+			{
+				using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
+					.CreateScope())
+				{
+					serviceScope.ServiceProvider.GetService<ApplicationDbContext>()
+						.Database.Migrate();
+				}
+			}
+			catch { }
+
+			//
+			app.UseRequestLocalization(new RequestLocalizationOptions
+			{
+				DefaultRequestCulture = new RequestCulture(DefaultCulture.Name),
+				// Formatting numbers, dates, etc.
+				SupportedCultures = SupportedCultures,
+				// UI strings that we have localized.
+				SupportedUICultures = SupportedCultures
+			});
+
+			//
 			app.UseHttpsRedirection();
+			app.UseAuthentication();
 			app.UseStaticFiles();
 			app.UseCookiePolicy();
-
 			app.UseMvc();
 		}
 		#endregion Methods

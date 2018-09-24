@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace CityMaster.Pages
 {
-	public class ErrorModel : PageModel
+	public class ErrorModel : PageModelBase
 	{
 		public string RequestId { get; set; }
 

@@ -1,9 +1,16 @@
-﻿<!DOCTYPE html>
+﻿@using System.Globalization
+@using Microsoft.AspNetCore.Http.Features
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - CityMaster</title>
+	<title>CityName - @ViewData["Title"]</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -18,10 +25,10 @@
 </head>
 <body>
 	<div class="container">
-		<h2 align="left" style="background-color: deepskyblue;color: blueviolet">City name</h2>
+		<h2 align="left" style="background-color: deepskyblue;color: blueviolet">City Name</h2>
 	</div>
 
-@*<partial name="_CookieConsentPartial" />*@
+@*<partial name="_CookieConsentPartial" />*@	
 
 	<div class="container body-content">
 		@if (IsSectionDefined("CarouselSection"))
@@ -29,22 +36,16 @@
 			// Display the carousel on the home page.
 			@RenderSection("CarouselSection", required: false)
 		}
-		else
+		else if (IsSectionDefined("PageImageSection"))
 		{
-			// Display one of the static images at the top of the page. 
-			// Initially, use any image here but eventually choose an image appropriate
-			// for the current page. This <img> tag will have to be moved to the page 
-			// selected by the menu item clicked, like "Medical", "Real Estate", "Entertainment", etc.
-			// NOTE: For responsiveness, use the 'srcset' and 'sizes' attributes as shown at
-			// https://medium.com/@MRWwebDesign/responsive-images-the-sizes-attribute-and-unexpected-image-sizes-882a2eadb6db
-			<img id="page-head-image" src="images/Static/1140x360_Kumasi1.jpg" class="img-responsive" />
+			// Display the carousel on the home page.
+			@RenderSection("PageImageSection", required: false)
 		}
-		@*  *@
 		<nav class="navbar navbar-inverse" style="background-color: deepskyblue; margin-top: 5px">
 			<div class="container">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="sr-only">Toggle navigation</span>
+						<span class="sr-only">>@Localizer["Toggle Navigation"]</span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
@@ -54,17 +55,23 @@
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
 						@*<li><a asp-page="/Index" style="color: blueviolet">Home</a></li>*@
-						<li><a asp-page="/About" style="color: blueviolet">About</a></li>
-						<li><a asp-page="/Contact" style="color: blueviolet">Contact</a></li>
+						<li><a asp-page="/About" style="color: blueviolet">@Localizer["About"]</a></li>
+						<li><a asp-page="/Contact" style="color: blueviolet">@Localizer["Contact"]</a></li>
 					</ul>
 				</div>
 			</div>
 		</nav>
-		@*  *@
 		@RenderBody()
 		<hr />
 		<footer>
-			<p>&copy; 2018 - CityMaster</p>
+			<div class="row">
+				<div class="col-md-6">
+					<p>&copy; @System.DateTime.Now.Year - CityMaster</p>
+				</div>
+				<div class="col-md-6 text-right">
+					@await Html.PartialAsync("_SelectLanguagePartial")
+				</div>
+			</div>
 		</footer>
 	</div>
 

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace CityMaster.Pages
 {
-	public class ContactModel : PageModel
+	public class ContactModel : PageModelBase
 	{
 		public string Message { get; set; }
 

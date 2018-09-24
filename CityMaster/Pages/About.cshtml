@@ -1,9 +1,21 @@
 ﻿@page
 @model AboutModel
 @{
-    ViewData["Title"] = "About";
+	ViewData["Title"] = "About";
 }
 <h2>@ViewData["Title"]</h2>
 <h3>@Model.Message</h3>
 
-<p>Use this area to provide additional information.</p>
+@section PageImageSection{
+	<div class="container-fluid">
+		<div id="myCarousel" class="carousel">
+			@* NOTE: For responsiveness, use the 'srcset' and 'sizes' attributes as shown at
+			https://medium.com/@MRWwebDesign/responsive-images-the-sizes-attribute-and-unexpected-image-sizes-882a2eadb6db*@
+			@*We must use Url.Content to resolve the URL during view rendering.*@
+			<img src="@Url.Content(Model.Image)" alt="ASP.NET" class="img-responsive"/>
+			<div class="carousel-caption" role="option">
+				<p>@Model.ImageCaption</p>
+			</div>
+		</div>
+	</div>
+}

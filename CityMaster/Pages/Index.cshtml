@@ -1,7 +1,17 @@
 ﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@* The IViewLocalizer can be injected into the view. It does two things of interest:
+	1. It can HTML encode *parameters* passed to resource strings (not the resource strings themselves, as they may contain
+	   HTML) automatically, and return the result as an IHtmlContent so Razor won't HTML encode it again;
+	2. It looks for localization resources for this view based on the view path, e.g. if the view's path is
+	   "MyApplication/Views/Home/Index.cshtml", then the corresponding resource base path will be "MyApplication.Views.Home.Index" *@
+@inject IViewLocalizer Localizer
+
 @model IndexModel
+
 @{
-	ViewData["Title"] = "Home page";
+	ViewData["Title"] = Localizer["Home Page"];
 }
 
 @section CarouselSection{
@@ -40,7 +50,7 @@
 				</div>
 				<div class="item">
 					@*<img src="~/images/banner3.svg" alt="Microsoft Azure" class="img-responsive" />*@
-					<img src="~/images/Static/1140x360_Kumasi1.jpg" alt="ASP.NET" class="img-responsive" />
+					<img src="~/images/Static/Kumasi-2.jpg" alt="ASP.NET" class="img-responsive" />
 					<div class="carousel-caption" role="option">
 						<p>
 							Kumasi City - Photo 3.
@@ -81,25 +91,25 @@
 				<li><a href="https://go.microsoft.com/fwlink/?LinkId=699319">Target development, staging or production environment.</a></li>
 			</ul>
 		</div>
-		<div class="col-md-3">
-			<h2>Overview</h2>
-			<ul>
-				<li><a href="https://go.microsoft.com/fwlink/?LinkId=518008">Conceptual overview of what is ASP.NET Core</a></li>
-				<li><a href="https://go.microsoft.com/fwlink/?LinkId=699320">Fundamentals of ASP.NET Core such as Startup and middleware.</a></li>
-				<li><a href="https://go.microsoft.com/fwlink/?LinkId=398602">Working with Data</a></li>
-				<li><a href="https://go.microsoft.com/fwlink/?LinkId=398603">Security</a></li>
-				<li><a href="https://go.microsoft.com/fwlink/?LinkID=699321">Client side development</a></li>
-				<li><a href="https://go.microsoft.com/fwlink/?LinkID=699322">Develop on different platforms</a></li>
-				<li><a href="https://go.microsoft.com/fwlink/?LinkID=699323">Read more on the documentation site</a></li>
-			</ul>
-		</div>
-		<div class="col-md-3">
-			<h2>Run &amp; Deploy</h2>
-			<ul>
-				<li><a href="https://go.microsoft.com/fwlink/?LinkID=517851">Run your app</a></li>
-				<li><a href="https://go.microsoft.com/fwlink/?LinkID=517853">Run tools such as EF migrations and more</a></li>
-				<li><a href="https://go.microsoft.com/fwlink/?LinkID=398609">Publish to Microsoft Azure App Service</a></li>
-			</ul>
-		</div>
+		@*<div class="col-md-3">
+				<h2>Overview</h2>
+				<ul>
+					<li><a href="https://go.microsoft.com/fwlink/?LinkId=518008">Conceptual overview of what is ASP.NET Core</a></li>
+					<li><a href="https://go.microsoft.com/fwlink/?LinkId=699320">Fundamentals of ASP.NET Core such as Startup and middleware.</a></li>
+					<li><a href="https://go.microsoft.com/fwlink/?LinkId=398602">Working with Data</a></li>
+					<li><a href="https://go.microsoft.com/fwlink/?LinkId=398603">Security</a></li>
+					<li><a href="https://go.microsoft.com/fwlink/?LinkID=699321">Client side development</a></li>
+					<li><a href="https://go.microsoft.com/fwlink/?LinkID=699322">Develop on different platforms</a></li>
+					<li><a href="https://go.microsoft.com/fwlink/?LinkID=699323">Read more on the documentation site</a></li>
+				</ul>
+			</div>
+			<div class="col-md-3">
+				<h2>Run &amp; Deploy</h2>
+				<ul>
+					<li><a href="https://go.microsoft.com/fwlink/?LinkID=517851">Run your app</a></li>
+					<li><a href="https://go.microsoft.com/fwlink/?LinkID=517853">Run tools such as EF migrations and more</a></li>
+					<li><a href="https://go.microsoft.com/fwlink/?LinkID=398609">Publish to Microsoft Azure App Service</a></li>
+				</ul>
+			</div>*@
 	</div>
 </div>
