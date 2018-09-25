@@ -12,7 +12,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.4" />
     <PackageReference Include="Sendgrid" Version="9.10.0" />
     <PackageReference Include="Syncfusion.EJ2" Version="16.2.0.50" />
-    <PackageReference Include="Syncfusion.Licensing" Version="16.2.0.50" />
+    <PackageReference Include="Syncfusion.Licensing" Version="16.3.0.21" />
   </ItemGroup>
 
   <ItemGroup>

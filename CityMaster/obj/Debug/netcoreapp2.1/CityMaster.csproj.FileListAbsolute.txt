@@ -31,8 +31,13 @@ C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.
 C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.csproj.CopyComplete
 C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\UserSecretsAssemblyInfo.cs
 C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\Razor\Pages\Shared\_SelectLanguagePartial.g.cshtml.cs
-C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.csprojAssemblyReference.cache
-C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\bin\Debug\netcoreapp2.1\zh\CityMaster.resources.dll
-C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.Resources.Pages.Shared._Layout.zh.resources
 C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.csproj.GenerateResource.cache
-C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\zh\CityMaster.resources.dll
+C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\bin\Debug\netcoreapp2.1\zh-CN\CityMaster.resources.dll
+C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.Resources.Pages.Shared._Layout.zh-CN.resources
+C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\zh-CN\CityMaster.resources.dll
+C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.Resources.Pages.Index.zh-CN.resources
+C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\bin\Debug\netcoreapp2.1\fr\CityMaster.resources.dll
+C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.Resources.Pages.Index.fr.resources
+C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.Resources.Pages.Shared._Layout.fr.resources
+C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\fr\CityMaster.resources.dll
+C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.csprojAssemblyReference.cache

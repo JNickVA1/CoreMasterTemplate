@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -167,14 +168,17 @@ namespace CityMaster
 
 			// Set the level of compatibility with ASP.NET Core.
 			services.AddMvc()
-				.SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+				.SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+			// Add Localization for Data Annotations and set the option for finding resource files.
+			services.AddMvc()
 				// Add support for finding localized views, based on file name suffix, e.g. Index.fr.cshtml
-				.AddViewLocalization(o => o.ResourcesPath = "Resources")
+				.AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
 				// Add support for localizing strings in data annotations (e.g. validation messages) via the
 				// IStringLocalizer abstractions.
 				.AddDataAnnotationsLocalization();
 
-			// Add the localization services to the services container
+			// Add the localization services to the services container and set the path for Resources.
 			services.AddLocalization(options => options.ResourcesPath = "Resources");
 
 			// Configure the MVC framework to require HTTPS.
