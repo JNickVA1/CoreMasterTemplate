@@ -301,9 +301,9 @@ namespace CityMaster
 			});
 
 			//
+			app.UseStaticFiles();
 			app.UseHttpsRedirection();
 			app.UseAuthentication();
-			app.UseStaticFiles();
 			app.UseCookiePolicy();
 			app.UseMvc();
 		}

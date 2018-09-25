@@ -40,4 +40,5 @@ C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\bin\Debug\netcoreapp2.
 C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.Resources.Pages.Index.fr.resources
 C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.Resources.Pages.Shared._Layout.fr.resources
 C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\fr\CityMaster.resources.dll
-C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.csprojAssemblyReference.cache
+C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.Resources.Pages.Shared._SelectLanguagePartial.fr.resources
+C:\Users\Yendo\source\repos\CoreMasterTemplate\CityMaster\obj\Debug\netcoreapp2.1\CityMaster.Resources.Pages.Shared._SelectLanguagePartial.zh-CN.resources
